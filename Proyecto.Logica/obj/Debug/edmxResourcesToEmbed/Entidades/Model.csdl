@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="proyeIntModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Producto">
+    <Key>
+      <PropertyRef Name="Id_Producto" />
+    </Key>
+    <Property Name="Id_Producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cantidad" Type="Int32" Nullable="false" />
+    <Property Name="Valor" Type="Int32" Nullable="false" />
+    <Property Name="Proveedor" Type="Int32" Nullable="false" />
+    <Property Name="Tipo" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Proveedor1" Relationship="Self.FK_Producto_Proveedor" FromRole="Producto" ToRole="Proveedor" />
+    <NavigationProperty Name="Tipo_Producto" Relationship="Self.FK_Producto_Tipo_Producto" FromRole="Producto" ToRole="Tipo_Producto" />
+  </EntityType>
+  <EntityType Name="Proveedor">
+    <Key>
+      <PropertyRef Name="Id_Proveedor" />
+    </Key>
+    <Property Name="Id_Proveedor" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nit" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Proveedor" FromRole="Proveedor" ToRole="Producto" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Tipo_Producto">
+    <Key>
+      <PropertyRef Name="Id_TProducto" />
+    </Key>
+    <Property Name="Id_TProducto" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SubCategoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Tipo_Producto" FromRole="Tipo_Producto" ToRole="Producto" />
+  </EntityType>
+  <EntityType Name="Tipo_Usuario">
+    <Key>
+      <PropertyRef Name="Id_TpUsu" />
+    </Key>
+    <Property Name="Id_TpUsu" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Tipo_Usuario" FromRole="Tipo_Usuario" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="Id_Usuario" />
+    </Key>
+    <Property Name="Id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_Usuario" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Tipo_Usuario1" Relationship="Self.FK_Usuario_Tipo_Usuario" FromRole="Usuario" ToRole="Tipo_Usuario" />
+  </EntityType>
+  <Association Name="FK_Producto_Proveedor">
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedor">
+        <PropertyRef Name="Id_Proveedor" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="Proveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Producto_Tipo_Producto">
+    <End Role="Tipo_Producto" Type="Self.Tipo_Producto" Multiplicity="1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tipo_Producto">
+        <PropertyRef Name="Id_TProducto" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="Tipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuario_Tipo_Usuario">
+    <End Role="Tipo_Usuario" Type="Self.Tipo_Usuario" Multiplicity="1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tipo_Usuario">
+        <PropertyRef Name="Id_TpUsu" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="Tipo_Usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="proyeIntEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Producto" EntityType="Self.Producto" />
+    <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Tipo_Producto" EntityType="Self.Tipo_Producto" />
+    <EntitySet Name="Tipo_Usuario" EntityType="Self.Tipo_Usuario" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <AssociationSet Name="FK_Producto_Proveedor" Association="Self.FK_Producto_Proveedor">
+      <End Role="Proveedor" EntitySet="Proveedor" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Producto_Tipo_Producto" Association="Self.FK_Producto_Tipo_Producto">
+      <End Role="Tipo_Producto" EntitySet="Tipo_Producto" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_Tipo_Usuario" Association="Self.FK_Usuario_Tipo_Usuario">
+      <End Role="Tipo_Usuario" EntitySet="Tipo_Usuario" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
