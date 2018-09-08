@@ -4,7 +4,8 @@ using System.Data;
 namespace Proyecto.Web.Controllers
 {
     public class ConsultarInventarioController
-    {
+    
+        //PRUEBA GIT
         /// <summary>
         /// Obtiene registro de consulta inventario
         /// </summary>
